@@ -13,7 +13,7 @@ Sistema de apoio à decisão para localização de instalações logísticas, ut
 
 ## Tecnologias
 
-Python, Flask, HTML, CSS, JavaScript, SQLite e Leaflet.
+typerscript,React,Vite, SQLite,Prisma,React Leaflet, OpenStreetMap.
 
 ## Objetivo
 
