@@ -1,69 +1,223 @@
-import Image from "next/image";
+
+"use client";
+
+import { useState } from "react";
+import ClienteForm from "@/components/ClienteForm";
+import type { Cliente } from "@/types/cliente";
 
 export default function Home() {
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+
+  function adicionarCliente(cliente: Cliente) {
+    setClientes((anteriores) => [...anteriores, cliente]);
+  }
+
+  function excluirCliente(id: string) {
+    setClientes((anteriores) =>
+      anteriores.filter((cliente) => cliente.id !== id)
+    );
+  }
+
+  const demandaTotal = clientes.reduce(
+    (soma, cliente) => soma + cliente.demanda,
+    0
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <main>
+      {/* Navegação */}
+      <header className="navbar">
+        <a href="#" className="logo">
+          <span className="logo-simbolo">L.</span>
+          logilocal
+        </a>
+
+        <nav className="nav-links">
+          <a href="#inicio">Início</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#analise">Análise</a>
+        </nav>
+
+        <a href="#analise" className="nav-botao">
+          Começar agora <span>↗</span>
+        </a>
+      </header>
+
+      {/* Seção principal */}
+      <section id="inicio" className="hero">
+        <div className="hero-conteudo">
+          <span className="eyebrow">
+            INTELIGÊNCIA EM LOCALIZAÇÃO LOGÍSTICA
+          </span>
+
+          <h1>
+            O lugar certo
+            <br />
+            faz toda a
+            <br />
+            <em>diferença.</em>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p>
+            Descubra a localização estratégica para o seu
+            centro de distribuição. Transforme dados de
+            demanda em decisões mais inteligentes.
+          </p>
+
+          <a href="#analise" className="hero-botao">
+            Explorar ferramenta <span>↗</span>
+          </a>
+        </div>
+
+        <div className="hero-imagem">
+          <div className="imagem-etiqueta">
+            <span className="etiqueta-numero">01 / 03</span>
+            <span>
+              Planejamento inteligente
+              <br />
+              começa com localização.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Apresentação */}
+      <section id="sobre" className="sobre">
+        <div>
+          <span className="eyebrow">SOBRE O LOGILOCAL</span>
+          <h2>
+            Decisões melhores
+            <br />
+            começam com <em>dados.</em>
+          </h2>
+        </div>
+
+        <div className="sobre-descricao">
+          <p>
+            O LogiLocal auxilia empresas a identificar uma
+            localização teórica para instalações logísticas,
+            considerando a distribuição e a demanda dos
+            clientes.
+          </p>
+          <p>
+            Utilizamos o método do centro de gravidade para
+            oferecer uma referência inicial ao planejamento
+            de centros de distribuição.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Ferramenta */}
+      <section id="analise" className="analise">
+        <div className="analise-cabecalho">
+          <div>
+            <span className="eyebrow">
+              FERRAMENTA DE LOCALIZAÇÃO
+            </span>
+
+            <h2>Planeje sua localização.</h2>
+
+            <p>
+              Cadastre seus pontos de demanda para iniciar
+              a análise logística.
+            </p>
+          </div>
+
+          <span className="analise-indicador">
+            ● Ambiente de simulação
+          </span>
         </div>
-      </main>
-    </div>
+
+        <div className="analise-grid">
+          <div>
+            <ClienteForm onAdicionar={adicionarCliente} />
+          </div>
+
+          <div className="painel-clientes">
+            <div className="painel-topo">
+              <div>
+                <span className="eyebrow">PONTOS DE DEMANDA</span>
+                <h3>Clientes cadastrados</h3>
+              </div>
+
+              <span className="contador">
+                {clientes.length}
+              </span>
+            </div>
+
+            <div className="indicadores">
+              <div>
+                <span>Clientes</span>
+                <strong>{clientes.length}</strong>
+              </div>
+
+              <div>
+                <span>Demanda total</span>
+                <strong>
+                  {demandaTotal.toLocaleString("pt-BR")}
+                </strong>
+              </div>
+            </div>
+
+            {clientes.length === 0 ? (
+              <div className="estado-vazio">
+                <span className="estado-icone">⌁</span>
+                <h4>Nenhum cliente adicionado</h4>
+                <p>
+                  Cadastre o primeiro ponto de demanda
+                  para começar.
+                </p>
+              </div>
+            ) : (
+              <div className="lista-clientes">
+                {clientes.map((cliente) => (
+                  <div
+                    key={cliente.id}
+                    className="cliente-item"
+                  >
+                    <div>
+                      <strong>{cliente.nome}</strong>
+                      <span>
+                        X: {cliente.x} · Y: {cliente.y}
+                        {" · "}
+                        {cliente.demanda} caixas
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        excluirCliente(cliente.id)
+                      }
+                      aria-label={`Excluir ${cliente.nome}`}
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="painel-rodape">
+              <span>
+                {clientes.length > 0
+                  ? "Dados prontos para análise"
+                  : "Aguardando dados"}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Rodapé */}
+      <footer className="footer">
+        <span className="logo">L. logilocal</span>
+        <span>
+          Projeto acadêmico · Localização de instalações
+          logísticas
+        </span>
+        <span>© 2026 LogiLocal</span>
+      </footer>
+    </main>
   );
 }
