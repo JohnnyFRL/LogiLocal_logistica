@@ -5,17 +5,36 @@ import { useState } from "react";
 import ClienteForm from "@/components/ClienteForm";
 import type { Cliente } from "@/types/cliente";
 
+import ResultadoAnalise from "@/components/ResultadoAnalise";
+import GraficoCartesiano from "@/components/GraficoCartesiano";
+import type {
+  ResultadoAnalise as Resultado,
+} from "@/types/cliente";
+
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [resultado, setResultado] =
+  useState<Resultado | null>(null);
+
 
   function adicionarCliente(cliente: Cliente) {
     setClientes((anteriores) => [...anteriores, cliente]);
   }
+  
+  function demonstrarResultado() {
+    setResultado({
+      x: 58.57,
+      y: 53.57,
+      demandaTotal: 700,
+      quantidadeClientes: 4,
+    });
+  }
 
-  function excluirCliente(id: string) {
+    function excluirCliente(id: string) {
     setClientes((anteriores) =>
       anteriores.filter((cliente) => cliente.id !== id)
     );
+    setResultado(null);
   }
 
   const demandaTotal = clientes.reduce(
@@ -203,11 +222,35 @@ export default function Home() {
                 {clientes.length > 0
                   ? "Dados prontos para análise"
                   : "Aguardando dados"}
-              </span>
+                  </span>
             </div>
           </div>
         </div>
-      </section>
+
+        {/* Área de simulação logística */}
+        <div className="mt-12">
+          <button
+            type="button"
+            onClick={demonstrarResultado}
+            disabled={clientes.length === 0}
+            className="rounded-full bg-[#354b3d] px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#24372d] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Visualizar exemplo de análise ↗
+          </button>
+
+          {resultado && (
+            <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+              <ResultadoAnalise resultado={resultado} />
+
+              <GraficoCartesiano
+                clientes={clientes}
+                resultado={resultado}
+              />
+            </div>
+          )}
+        </div>
+
+      </section> {/* Agora a seção fecha aqui */}
 
       {/* Rodapé */}
       <footer className="footer">
