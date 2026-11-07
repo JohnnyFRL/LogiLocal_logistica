@@ -1,8 +1,7 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
-import type { Cliente } from "@/types/cliente";
+import type { Cliente } from "@/types/clients";
 
 interface Props {
   onAdicionar: (cliente: Cliente) => void;
@@ -54,8 +53,7 @@ export default function ClienteForm({ onAdicionar }: Props) {
     "px-4 py-3 text-sm text-[#26352c] outline-none " +
     "transition-colors focus:border-[#6b866c]";
 
-  const labelStyle =
-    "mb-2 block text-xs font-semibold text-[#526253]";
+  const labelStyle = "mb-2 block text-xs font-semibold text-[#526253]";
 
   return (
     <section className="h-full rounded-[14px] border border-[#e2e5dc] bg-white p-8 max-sm:p-5">
@@ -68,8 +66,8 @@ export default function ClienteForm({ onAdicionar }: Props) {
       </h3>
 
       <p className="mt-3 mb-8 text-sm leading-7 text-[#7b847b]">
-        Insira as informações de localização e demanda
-        para incluir um novo cliente na análise.
+        Insira as informações de localização e demanda para incluir um novo
+        cliente na análise.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">

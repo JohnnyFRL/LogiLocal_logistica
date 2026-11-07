@@ -1,9 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
 import ClienteForm from "@/components/ClienteForm";
-import type { Cliente } from "@/types/cliente";
+import ComparacaoInstalacoes from "@/components/ComparacaoInstalacoes";
+import type { Cliente } from "@/types/clients";
 
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -14,13 +14,13 @@ export default function Home() {
 
   function excluirCliente(id: string) {
     setClientes((anteriores) =>
-      anteriores.filter((cliente) => cliente.id !== id)
+      anteriores.filter((cliente) => cliente.id !== id),
     );
   }
 
   const demandaTotal = clientes.reduce(
     (soma, cliente) => soma + cliente.demanda,
-    0
+    0,
   );
 
   return (
@@ -36,6 +36,7 @@ export default function Home() {
           <a href="#inicio">Início</a>
           <a href="#sobre">Sobre</a>
           <a href="#analise">Análise</a>
+          <a href="#comparacao">Comparar instalações</a>
         </nav>
 
         <a href="#analise" className="nav-botao">
@@ -46,9 +47,7 @@ export default function Home() {
       {/* Seção principal */}
       <section id="inicio" className="hero">
         <div className="hero-conteudo">
-          <span className="eyebrow">
-            INTELIGÊNCIA EM LOCALIZAÇÃO LOGÍSTICA
-          </span>
+          <span className="eyebrow">INTELIGÊNCIA EM LOCALIZAÇÃO LOGÍSTICA</span>
 
           <h1>
             O lugar certo
@@ -59,9 +58,9 @@ export default function Home() {
           </h1>
 
           <p>
-            Descubra a localização estratégica para o seu
-            centro de distribuição. Transforme dados de
-            demanda em decisões mais inteligentes.
+            Descubra a localização estratégica para o seu centro de
+            distribuição. Transforme dados de demanda em decisões mais
+            inteligentes.
           </p>
 
           <a href="#analise" className="hero-botao">
@@ -94,15 +93,13 @@ export default function Home() {
 
         <div className="sobre-descricao">
           <p>
-            O LogiLocal auxilia empresas a identificar uma
-            localização teórica para instalações logísticas,
-            considerando a distribuição e a demanda dos
-            clientes.
+            O LogiLocal auxilia empresas a identificar uma localização teórica
+            para instalações logísticas, considerando a distribuição e a demanda
+            dos clientes.
           </p>
           <p>
-            Utilizamos o método do centro de gravidade para
-            oferecer uma referência inicial ao planejamento
-            de centros de distribuição.
+            Utilizamos o método do centro de gravidade para oferecer uma
+            referência inicial ao planejamento de centros de distribuição.
           </p>
         </div>
       </section>
@@ -111,21 +108,16 @@ export default function Home() {
       <section id="analise" className="analise">
         <div className="analise-cabecalho">
           <div>
-            <span className="eyebrow">
-              FERRAMENTA DE LOCALIZAÇÃO
-            </span>
+            <span className="eyebrow">FERRAMENTA DE LOCALIZAÇÃO</span>
 
             <h2>Planeje sua localização.</h2>
 
             <p>
-              Cadastre seus pontos de demanda para iniciar
-              a análise logística.
+              Cadastre seus pontos de demanda para iniciar a análise logística.
             </p>
           </div>
 
-          <span className="analise-indicador">
-            ● Ambiente de simulação
-          </span>
+          <span className="analise-indicador">● Ambiente de simulação</span>
         </div>
 
         <div className="analise-grid">
@@ -140,9 +132,7 @@ export default function Home() {
                 <h3>Clientes cadastrados</h3>
               </div>
 
-              <span className="contador">
-                {clientes.length}
-              </span>
+              <span className="contador">{clientes.length}</span>
             </div>
 
             <div className="indicadores">
@@ -153,9 +143,7 @@ export default function Home() {
 
               <div>
                 <span>Demanda total</span>
-                <strong>
-                  {demandaTotal.toLocaleString("pt-BR")}
-                </strong>
+                <strong>{demandaTotal.toLocaleString("pt-BR")}</strong>
               </div>
             </div>
 
@@ -163,18 +151,12 @@ export default function Home() {
               <div className="estado-vazio">
                 <span className="estado-icone">⌁</span>
                 <h4>Nenhum cliente adicionado</h4>
-                <p>
-                  Cadastre o primeiro ponto de demanda
-                  para começar.
-                </p>
+                <p>Cadastre o primeiro ponto de demanda para começar.</p>
               </div>
             ) : (
               <div className="lista-clientes">
                 {clientes.map((cliente) => (
-                  <div
-                    key={cliente.id}
-                    className="cliente-item"
-                  >
+                  <div key={cliente.id} className="cliente-item">
                     <div>
                       <strong>{cliente.nome}</strong>
                       <span>
@@ -186,9 +168,7 @@ export default function Home() {
 
                     <button
                       type="button"
-                      onClick={() =>
-                        excluirCliente(cliente.id)
-                      }
+                      onClick={() => excluirCliente(cliente.id)}
                       aria-label={`Excluir ${cliente.nome}`}
                     >
                       Excluir
@@ -209,13 +189,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Comparação de instalações candidatas */}
+      <section id="comparacao" className="secao-comparacao">
+        <ComparacaoInstalacoes clientes={clientes} />
+      </section>
+
       {/* Rodapé */}
       <footer className="footer">
         <span className="logo">L. logilocal</span>
-        <span>
-          Projeto acadêmico · Localização de instalações
-          logísticas
-        </span>
+        <span>Projeto acadêmico · Localização de instalações logísticas</span>
         <span>© 2026 LogiLocal</span>
       </footer>
     </main>
