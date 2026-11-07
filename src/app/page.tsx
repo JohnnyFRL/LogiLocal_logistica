@@ -1,21 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClienteForm from "@/components/ClienteForm";
 import ComparacaoInstalacoes from "@/components/ComparacaoInstalacoes";
 import type { Cliente } from "@/types/clients";
+import { carregarClientes, salvarClientes } from "@/lib/storage";
+import ResultadoAnalise from "@/components/ResultadoAnalise";
+import GraficoCartesiano from "@/components/GraficoCartesiano";
+import type { ResultadoAnalise as Resultado } from "@/types/cliente";
 
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [resultado, setResultado] = useState<Resultado | null>(null);
+  const [carregado, setCarregado] = useState(false);
+
+  useEffect(() => {
+    const clientesSalvos = carregarClientes();
+
+    setClientes(clientesSalvos);
+    setCarregado(true);
+  }, []);
+
+  useEffect(() => {
+    if (carregado) {
+      salvarClientes(clientes);
+    }
+  }, [clientes, carregado]);
 
   function adicionarCliente(cliente: Cliente) {
     setClientes((anteriores) => [...anteriores, cliente]);
+  }
+
+  function demonstrarResultado() {
+    setResultado({
+      x: 58.57,
+      y: 53.57,
+      demandaTotal: 700,
+      quantidadeClientes: 4,
+    });
   }
 
   function excluirCliente(id: string) {
     setClientes((anteriores) =>
       anteriores.filter((cliente) => cliente.id !== id),
     );
+    setResultado(null);
   }
 
   const demandaTotal = clientes.reduce(
@@ -43,7 +72,6 @@ export default function Home() {
           Começar agora <span>↗</span>
         </a>
       </header>
-
       {/* Seção principal */}
       <section id="inicio" className="hero">
         <div className="hero-conteudo">
@@ -79,7 +107,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Apresentação */}
       <section id="sobre" className="sobre">
         <div>
@@ -103,7 +130,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-
       {/* Ferramenta */}
       <section id="analise" className="analise">
         <div className="analise-cabecalho">
@@ -187,13 +213,32 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
 
+        {/* Área de simulação logística */}
+        <div className="mt-12">
+          <button
+            type="button"
+            onClick={demonstrarResultado}
+            disabled={clientes.length === 0}
+            className="rounded-full bg-[#354b3d] px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#24372d] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Visualizar exemplo de análise ↗
+          </button>
+
+          {resultado && (
+            <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+              <ResultadoAnalise resultado={resultado} />
+
+              <GraficoCartesiano clientes={clientes} resultado={resultado} />
+            </div>
+          )}
+        </div>
+      </section>{" "}
+      {/* Agora a seção fecha aqui */}
       {/* Comparação de instalações candidatas */}
       <section id="comparacao" className="secao-comparacao">
         <ComparacaoInstalacoes clientes={clientes} />
       </section>
-
       {/* Rodapé */}
       <footer className="footer">
         <span className="logo">L. logilocal</span>
