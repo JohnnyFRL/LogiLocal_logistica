@@ -1,10 +1,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClienteForm from "@/components/ClienteForm";
 import type { Cliente } from "@/types/cliente";
-
+import { carregarClientes, salvarClientes } from "@/lib/storage";
 import ResultadoAnalise from "@/components/ResultadoAnalise";
 import GraficoCartesiano from "@/components/GraficoCartesiano";
 import type {
@@ -15,6 +15,21 @@ export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [resultado, setResultado] =
   useState<Resultado | null>(null);
+  const [carregado, setCarregado] = useState(false);
+
+  
+useEffect(() => {
+  const clientesSalvos = carregarClientes();
+
+  setClientes(clientesSalvos);
+  setCarregado(true);
+}, []);
+
+useEffect(() => {
+  if (carregado) {
+    salvarClientes(clientes);
+  }
+}, [clientes, carregado]);
 
 
   function adicionarCliente(cliente: Cliente) {
