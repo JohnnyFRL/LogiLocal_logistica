@@ -1,13 +1,10 @@
-
-import type { ResultadoAnalise } from "@/types/cliente";
+import type { ResultadoAnalise } from "@/types/clients";
 
 interface Props {
   resultado: ResultadoAnalise | null;
 }
 
-export default function ResultadoAnalise({
-  resultado,
-}: Props) {
+export default function ResultadoAnalise({ resultado }: Props) {
   if (!resultado) return null;
 
   return (
@@ -26,9 +23,7 @@ export default function ResultadoAnalise({
 
       <div className="mt-8 grid grid-cols-2 gap-4">
         <div className="rounded-lg bg-[#f1f3ee] p-5">
-          <span className="text-sm text-[#718472]">
-            Coordenada X
-          </span>
+          <span className="text-sm text-[#718472]">Coordenada X</span>
 
           <p className="mt-2 text-3xl font-semibold text-[#354b3d]">
             {resultado.x.toFixed(2)}
@@ -36,9 +31,7 @@ export default function ResultadoAnalise({
         </div>
 
         <div className="rounded-lg bg-[#f1f3ee] p-5">
-          <span className="text-sm text-[#718472]">
-            Coordenada Y
-          </span>
+          <span className="text-sm text-[#718472]">Coordenada Y</span>
 
           <p className="mt-2 text-3xl font-semibold text-[#354b3d]">
             {resultado.y.toFixed(2)}
@@ -48,20 +41,18 @@ export default function ResultadoAnalise({
 
       <div className="mt-6 border-t border-[#e2e5dc] pt-5">
         <p className="text-sm text-[#68736a]">
-          Clientes analisados:{" "}
-          <strong>{resultado.quantidadeClientes}</strong>
+          Clientes analisados: <strong>{resultado.quantidadeClientes}</strong>
         </p>
 
         <p className="mt-2 text-sm text-[#68736a]">
-          Demanda total:{" "}
-          <strong>{resultado.demandaTotal}</strong> caixas/mês
+          Demanda total: <strong>{resultado.demandaTotal}</strong> caixas/mês
         </p>
       </div>
 
       <p className="mt-6 text-sm leading-7 text-[#68736a]">
-        A localização apresentada representa uma referência
-        teórica para a instalação de um centro de distribuição,
-        considerando os pontos de demanda cadastrados.
+        A localização apresentada representa uma referência teórica para a
+        instalação de um centro de distribuição, considerando os pontos de
+        demanda cadastrados.
       </p>
     </section>
   );

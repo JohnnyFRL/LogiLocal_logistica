@@ -1,18 +1,11 @@
-
-import type {
-  Cliente,
-  ResultadoAnalise,
-} from "@/types/cliente";
+import type { Cliente, ResultadoAnalise } from "@/types/clients";
 
 interface Props {
   clientes: Cliente[];
   resultado: ResultadoAnalise | null;
 }
 
-export default function GraficoCartesiano({
-  clientes,
-  resultado,
-}: Props) {
+export default function GraficoCartesiano({ clientes, resultado }: Props) {
   const largura = 600;
   const altura = 360;
   const margem = 45;
@@ -33,15 +26,10 @@ export default function GraficoCartesiano({
   const maxY = Math.max(100, ...valoresY);
 
   const posX = (x: number) =>
-    margem +
-    ((x - minX) / (maxX - minX)) *
-      (largura - 2 * margem);
+    margem + ((x - minX) / (maxX - minX)) * (largura - 2 * margem);
 
   const posY = (y: number) =>
-    altura -
-    margem -
-    ((y - minY) / (maxY - minY)) *
-      (altura - 2 * margem);
+    altura - margem - ((y - minY) / (maxY - minY)) * (altura - 2 * margem);
 
   return (
     <section className="rounded-xl border border-[#e2e5dc] bg-white p-8">
@@ -91,12 +79,7 @@ export default function GraficoCartesiano({
           X
         </text>
 
-        <text
-          x={margem}
-          y={margem - 15}
-          fill="#526253"
-          fontSize="14"
-        >
+        <text x={margem} y={margem - 15} fill="#526253" fontSize="14">
           Y
         </text>
 
@@ -127,8 +110,7 @@ export default function GraficoCartesiano({
             strokeWidth="3"
           >
             <title>
-              Centro de gravidade:
-              ({resultado.x.toFixed(2)},
+              Centro de gravidade: ({resultado.x.toFixed(2)},
               {resultado.y.toFixed(2)})
             </title>
           </circle>

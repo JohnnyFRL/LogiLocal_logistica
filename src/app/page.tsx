@@ -7,11 +7,15 @@ import type { Cliente } from "@/types/clients";
 import { carregarClientes, salvarClientes } from "@/lib/storage";
 import ResultadoAnalise from "@/components/ResultadoAnalise";
 import GraficoCartesiano from "@/components/GraficoCartesiano";
-import type { ResultadoAnalise as Resultado } from "@/types/cliente";
+import type { ResultadoAnalise as Resultado } from "@/types/clients";
 
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [resultado, setResultado] = useState<Resultado | null>(null);
+
+  const [calculando, setCalculando] = useState(false);
+  const [erroCalculo, setErroCalculo] = useState("");
+
   const [carregado, setCarregado] = useState(false);
 
   useEffect(() => {
@@ -29,22 +33,51 @@ export default function Home() {
 
   function adicionarCliente(cliente: Cliente) {
     setClientes((anteriores) => [...anteriores, cliente]);
+    setResultado(null);
+    setErroCalculo("");
   }
 
-  function demonstrarResultado() {
-    setResultado({
-      x: 58.57,
-      y: 53.57,
-      demandaTotal: 700,
-      quantidadeClientes: 4,
-    });
+  async function calcularLocalizacao() {
+    if (clientes.length === 0 || calculando) return;
+
+    setCalculando(true);
+    setErroCalculo("");
+    setResultado(null);
+
+    try {
+      const resposta = await fetch("/api/calcular", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ clientes }),
+      });
+
+      const dados = await resposta.json();
+
+      if (!resposta.ok) {
+        throw new Error(
+          dados.erro ?? "Não foi possível calcular a localização.",
+        );
+      }
+
+      setResultado(dados as Resultado);
+    } catch (erro) {
+      setErroCalculo(
+        erro instanceof Error ? erro.message : "Ocorreu um erro inesperado.",
+      );
+    } finally {
+      setCalculando(false);
+    }
   }
 
   function excluirCliente(id: string) {
     setClientes((anteriores) =>
       anteriores.filter((cliente) => cliente.id !== id),
     );
+
     setResultado(null);
+    setErroCalculo("");
   }
 
   const demandaTotal = clientes.reduce(
@@ -215,15 +248,25 @@ export default function Home() {
         </div>
 
         {/* Área de simulação logística */}
+
+        {/* Área de simulação logística */}
         <div className="mt-12">
           <button
             type="button"
-            onClick={demonstrarResultado}
-            disabled={clientes.length === 0}
+            onClick={calcularLocalizacao}
+            disabled={clientes.length === 0 || calculando}
             className="rounded-full bg-[#354b3d] px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#24372d] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Visualizar exemplo de análise ↗
+            {calculando
+              ? "Calculando localização..."
+              : "Calcular localização ↗"}
           </button>
+
+          {erroCalculo && (
+            <p className="mt-4 text-sm text-red-700" role="alert">
+              {erroCalculo}
+            </p>
+          )}
 
           {resultado && (
             <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
