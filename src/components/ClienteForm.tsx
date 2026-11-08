@@ -33,7 +33,21 @@ export default function ClienteForm({ onAdicionar }: Props) {
     ) {
       alert("Preencha os campos corretamente.");
       return;
-    }
+    }   
+    if (
+    !nome.trim() ||
+    !x.trim() ||
+    !y.trim() ||
+    !demanda.trim() ||
+    !Number.isFinite(numeroX) ||
+    !Number.isFinite(numeroY) ||
+    !Number.isFinite(numeroDemanda) ||
+    numeroDemanda <= 0
+) {
+  alert("Preencha os campos corretamente.");
+  return;
+}
+    
 
     onAdicionar({
       id: crypto.randomUUID(),
@@ -99,7 +113,7 @@ export default function ClienteForm({ onAdicionar }: Props) {
               step="any"
               value={x}
               onChange={(e) => setX(e.target.value)}
-              placeholder="10"
+              placeholder="Ex.: -34.8770"
               className={inputStyle}
               required
             />
@@ -115,7 +129,7 @@ export default function ClienteForm({ onAdicionar }: Props) {
               step="any"
               value={y}
               onChange={(e) => setY(e.target.value)}
-              placeholder="20"
+              placeholder="Ex.: -8.0476"
               className={inputStyle}
               required
             />

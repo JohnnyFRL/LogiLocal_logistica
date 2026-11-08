@@ -10,6 +10,14 @@ import GraficoCartesiano from "@/components/GraficoCartesiano";
 import type {
   ResultadoAnalise as Resultado,
 } from "@/types/cliente";
+import dynamic from "next/dynamic";
+
+const MapaLocalizacao = dynamic(
+  () => import("@/components/MapaLocalizacao"),
+  { ssr: false }
+);
+
+
 
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -17,7 +25,6 @@ export default function Home() {
   useState<Resultado | null>(null);
   const [carregado, setCarregado] = useState(false);
 
-  
 useEffect(() => {
   const clientesSalvos = carregarClientes();
 
@@ -56,6 +63,22 @@ useEffect(() => {
     (soma, cliente) => soma + cliente.demanda,
     0
   );
+
+
+  const pontosMapa = clientes.map((cliente) => ({
+  id: cliente.id,
+  nome: cliente.nome,
+  latitude: cliente.y,
+  longitude: cliente.x,
+  demanda: cliente.demanda,
+}));
+
+const centroMapa = resultado
+  ? {
+      latitude: resultado.y,
+      longitude: resultado.x,
+    }
+  : null;
 
   return (
     <main>
@@ -263,6 +286,10 @@ useEffect(() => {
               />
             </div>
           )}
+            {/* Mapa geográfico — demonstração */}
+            <div className="mt-10">
+               <MapaLocalizacao pontos={pontosMapa} centro={null} />
+              </div>        
         </div>
 
       </section> {/* Agora a seção fecha aqui */}
