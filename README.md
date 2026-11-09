@@ -1,6 +1,6 @@
-# LogiLocal — Sistema de Apoio à Localização de Instalações Logísticas
+# GeoNexus — Sistema de Apoio à Localização de Instalações Logísticas
 
-O **LogiLocal** é uma aplicação web desenvolvida como projeto acadêmico para apoiar decisões sobre a localização de centros de distribuição. A ferramenta reúne duas análises: o **método do centro de gravidade**, para sugerir uma localização teórica com base na demanda dos clientes, e a **comparação de instalações candidatas**, para identificar a opção com menor custo logístico estimado.
+O **GeoNexus** é uma aplicação web desenvolvida como projeto acadêmico para apoiar decisões sobre a localização de centros de distribuição. A ferramenta reúne duas análises: o **método do centro de gravidade**, para sugerir uma localização teórica com base na demanda dos clientes, e a **comparação de instalações candidatas**, para identificar a opção com menor custo logístico estimado.
 
 ## Funcionalidades
 
@@ -43,7 +43,7 @@ Não é necessário configurar um banco de dados para executar o MVP.
 
    ```bash
    git clone <URL_DO_REPOSITORIO>
-   cd LogiLocal_logistica
+   cd GeoNexus_logistica
    ```
 
 2. Instale as dependências:
