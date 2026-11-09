@@ -43,6 +43,18 @@ export default function ComparacaoInstalacoes({ clientes }: Props) {
       setErro("Preencha os dados da instalação corretamente.");
       return;
     }
+    
+    if (
+      numeroX < -180 ||
+      numeroX > 180 ||
+      numeroY < -90 ||
+      numeroY > 90
+) {
+  setErro("Informe uma longitude e latitude válidas.");
+  return;
+}
+
+
 
     const novaInstalacao: Instalacao = {
       id: crypto.randomUUID(),
@@ -162,9 +174,11 @@ export default function ComparacaoInstalacoes({ clientes }: Props) {
                 <input
                   type="number"
                   step="any"
+                  min="-180"
+                  max="180"
                   value={x}
                   onChange={(e) => setX(e.target.value)}
-                  placeholder="30"
+                  placeholder="Ex.: -34.8770"
                   required
                 />
               </label>
@@ -174,9 +188,11 @@ export default function ComparacaoInstalacoes({ clientes }: Props) {
                 <input
                   type="number"
                   step="any"
+                  min="-90"
+                  max="90"
                   value={y}
                   onChange={(e) => setY(e.target.value)}
-                  placeholder="40"
+                  placeholder="Ex.: -8.0476"
                   required
                 />
               </label>
@@ -341,9 +357,11 @@ export default function ComparacaoInstalacoes({ clientes }: Props) {
           </div>
 
           <p className="comparacao-observacao">
-            Os valores são estimativas baseadas em distâncias cartesianas,
-            demanda e custos informados. Não representam trajetos rodoviários
-            reais.
+            Os valores são estimativas baseadas em distâncias
+      geográficas aproximadas em linha reta, calculadas pela
+      fórmula de Haversine, considerando a demanda dos clientes
+      e os custos informados. Não representam trajetos
+      rodoviários reais.
           </p>
         </section>
       )}
