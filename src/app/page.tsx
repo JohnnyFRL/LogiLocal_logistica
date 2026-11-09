@@ -8,6 +8,12 @@ import { carregarClientes, salvarClientes } from "@/lib/storage";
 import ResultadoAnalise from "@/components/ResultadoAnalise";
 import GraficoCartesiano from "@/components/GraficoCartesiano";
 import type { ResultadoAnalise as Resultado } from "@/types/clients";
+import dynamic from "next/dynamic";
+
+const MapaLocalizacao = dynamic(
+  () => import("@/components/MapaLocalizacao"),
+  { ssr: false },
+);
 
 export default function Home() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -84,6 +90,22 @@ export default function Home() {
     (soma, cliente) => soma + cliente.demanda,
     0,
   );
+
+
+  const pontosMapa = clientes.map((cliente) => ({
+    id: cliente.id,
+    nome: cliente.nome,
+    latitude: cliente.y,
+    longitude: cliente.x,
+    demanda: cliente.demanda,
+  }));
+
+  const centroMapa = resultado
+    ? {
+        latitude: resultado.y,
+        longitude: resultado.x,
+      }
+    : null;
 
   return (
     <main>
@@ -248,8 +270,6 @@ export default function Home() {
         </div>
 
         {/* Área de simulação logística */}
-
-        {/* Área de simulação logística */}
         <div className="mt-12">
           <button
             type="button"
@@ -275,9 +295,12 @@ export default function Home() {
               <GraficoCartesiano clientes={clientes} resultado={resultado} />
             </div>
           )}
+          {/* Mapa geográfico com resultado do backend */}
+          <div className="mt-10">
+            <MapaLocalizacao pontos={pontosMapa} centro={centroMapa} />
+          </div>
         </div>
-      </section>{" "}
-      {/* Agora a seção fecha aqui */}
+      </section>
       {/* Comparação de instalações candidatas */}
       <section id="comparacao" className="secao-comparacao">
         <ComparacaoInstalacoes clientes={clientes} />
