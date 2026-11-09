@@ -6,7 +6,6 @@ import ComparacaoInstalacoes from "@/components/ComparacaoInstalacoes";
 import type { Cliente } from "@/types/clients";
 import { carregarClientes, salvarClientes } from "@/lib/storage";
 import ResultadoAnalise from "@/components/ResultadoAnalise";
-import GraficoCartesiano from "@/components/GraficoCartesiano";
 import type { ResultadoAnalise as Resultado } from "@/types/clients";
 import dynamic from "next/dynamic";
 
@@ -289,10 +288,8 @@ export default function Home() {
           )}
 
           {resultado && (
-            <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+              <div className="mt-8">
               <ResultadoAnalise resultado={resultado} />
-
-              <GraficoCartesiano clientes={clientes} resultado={resultado} />
             </div>
           )}
           {/* Mapa geográfico com resultado do backend */}
