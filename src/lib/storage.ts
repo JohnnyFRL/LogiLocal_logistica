@@ -17,7 +17,7 @@ export function salvarLocal<T>(chave: string, dados: T[]): void {
   }
 }
 
-const STORAGE_KEY = "logilocal:clientes";
+const STORAGE_KEY = "geonexus:clientes";
 
 export function salvarClientes(clientes: Cliente[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(clientes));

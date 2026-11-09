@@ -111,8 +111,8 @@ export default function Home() {
       {/* Navegação */}
       <header className="navbar">
         <a href="#" className="logo">
-          <span className="logo-simbolo">L.</span>
-          logilocal
+          <span className="logo-simbolo">G.</span>
+          GeoNexus
         </a>
 
         <nav className="nav-links">
@@ -164,7 +164,7 @@ export default function Home() {
       {/* Apresentação */}
       <section id="sobre" className="sobre">
         <div>
-          <span className="eyebrow">SOBRE O LOGILOCAL</span>
+          <span className="eyebrow">SOBRE O GEONEXUS</span>
           <h2>
             Decisões melhores
             <br />
@@ -174,7 +174,7 @@ export default function Home() {
 
         <div className="sobre-descricao">
           <p>
-            O LogiLocal auxilia empresas a identificar uma localização teórica
+            O GeoNexus auxilia empresas a identificar uma localização teórica
             para instalações logísticas, considerando a distribuição e a demanda
             dos clientes.
           </p>
@@ -304,9 +304,9 @@ export default function Home() {
       </section>
       {/* Rodapé */}
       <footer className="footer">
-        <span className="logo">L. logilocal</span>
+        <span className="logo">G. GeoNexus</span>
         <span>Projeto acadêmico · Localização de instalações logísticas</span>
-        <span>© 2026 LogiLocal</span>
+        <span>© 2026 GeoNexus</span>
       </footer>
     </main>
   );
